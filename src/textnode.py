@@ -1,5 +1,10 @@
 from htmlnode import LeafNode
 
+text_type_text="text"
+text_type_code="code"
+text_type_bold="bold"
+text_type_italic="italic"
+
 class TextNode():
     def __init__(self, text, type, url=None):
         self.text = text
@@ -35,18 +40,5 @@ def text_node_to_html_node(text_node):
         return LeafNode('img', "",{'src':text_node.url, 'alt':text_node.text} )
 
 
-def split_nodes_delimiter(old_nodes, delimeter, text_type):
     
-    types = {"text_type_text": "text", "text_type_code": "code", "text_type_bold": "bold", "text_type_italic": "italic"}
 
-    node_list = []
-
-    if text_type in types:
-        split_string = old_nodes.text.split(delimeter)
-        for part in split_string:
-            node_list.append(TextNode(part, types[text_type]))
-
-    return node_list
-
-node = TextNode("This is text with a 'code block", "text_type_text")
-print(split_nodes_delimiter([node], "`", "text_type_text"))
