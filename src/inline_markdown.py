@@ -27,3 +27,10 @@ def split_nodes_delimeter(old_nodes, delimeter, text_type):
                 split_nodes.append(TextNode(parts[i], text_type))
         new_nodes.extend(split_nodes)
     return new_nodes
+
+def split_nodes_image(old_nodes):
+    pass
+
+
+def split_nodes_link(old_nodes):
+    pass
