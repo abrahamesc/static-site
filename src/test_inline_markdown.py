@@ -1,11 +1,13 @@
 import unittest
-from inline_markdown import split_nodes_delimeter
+from inline_markdown import split_nodes_delimeter, split_nodes_link, split_nodes_image, extract_markdown_links, extract_markdown_images
 from textnode import (
         TextNode,
         text_type_text,
         text_type_bold,
         text_type_code,
-        text_type_italic
+        text_type_italic,
+        text_type_image,
+        text_type_link
 )
 
 class TestTextInline(unittest.TestCase):
@@ -59,3 +61,53 @@ class TestTextInline(unittest.TestCase):
                     TextNode(".", text_type_text)
                 ],
                 new_node)
+
+
+    def test_split_images(self):
+        node = TextNode("This sentence contains an image here: ![dog](https://doggy.com/somedog.png).", text_type_text)
+        new_node = split_nodes_image([node])
+        self.assertListEqual(
+                [
+                    TextNode("This sentence contains an image here: ", text_type_text),
+                    TextNode("dog", text_type_image,"https://doggy.com/somedog.png"),
+                    TextNode(".", text_type_text)
+                ],
+                new_node)
+
+
+    def test_split_images_two(self):
+        node = TextNode("This has two image. The dog one ![dog](https://doggy.com/dog.png) and the cat one ![cat](https://cat.com/cat.png)", text_type_text)
+        new_node = split_nodes_image([node])
+        self.assertListEqual(
+            [
+                TextNode("This has two image. The dog one ", text_type_text),
+                TextNode("dog", text_type_image, "https://doggy.com/dog.png"),
+                TextNode(" and the cat one ", text_type_text),
+                TextNode("cat", text_type_image, "https://cat.com/cat.png")
+            ],
+            new_node)
+
+
+    def test_split_links(self):
+        node = TextNode("This sentence contains an link here: [dog](https://doggy.com/somedog.png).", text_type_text)
+        new_node = split_nodes_link([node])
+        self.assertListEqual(
+                [
+                    TextNode("This sentence contains an link here: ", text_type_text),
+                    TextNode("dog", text_type_link,"https://doggy.com/somedog.png"),
+                    TextNode(".", text_type_text)
+                ],
+                new_node)
+
+
+    def test_split_links_two(self):
+        node = TextNode("This has two links. The dog one [dog](https://doggy.com/dog.png) and the cat one [cat](https://cat.com/cat.png)", text_type_text)
+        new_node = split_nodes_link([node])
+        self.assertListEqual(
+            [
+                TextNode("This has two links. The dog one ", text_type_text),
+                TextNode("dog", text_type_link, "https://doggy.com/dog.png"),
+                TextNode(" and the cat one ", text_type_text),
+                TextNode("cat", text_type_link, "https://cat.com/cat.png")
+            ],
+            new_node)
