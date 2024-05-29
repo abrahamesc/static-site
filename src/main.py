@@ -4,6 +4,7 @@ import os, shutil
 def copy_tree(source, destination):
 
     if destination == "../public/":
+        print("Deleting the 'public' directory")
         shutil.rmtree(destination)
 
     if not os.path.exists(destination):
@@ -23,7 +24,6 @@ def copy_tree(source, destination):
 
 
 def main():
-    print("Copying static files to public dir...")
     copy_tree('../static/', '../public/')
 
 main()
