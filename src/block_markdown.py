@@ -154,4 +154,24 @@ def quote_to_html_node(block):
     content = " ".join(new_lines)
     children = text_to_children(content)
     return ParentNode("blockquote", children)
+
+def extract_title(markdown):
+
+    content_list = markdown.split()
+    for item in content_list:
+        if item.startswith("# "):
+            return item
+
+    raise Exception("There's no header (Single '#') in the markdown")
+
+
+def generate_page(from_path, template_path, dest_path):
+    
+    print(f'Generating page from {from_path} to {dest_path} using {template_path}')
+
+    markdown_file = open(from_path, 'r')
+    markdown_file.read()
+    
+
+
     
